@@ -142,9 +142,9 @@ func TestConfigValidate(t *testing.T) {
 }
 
 // TestNew tests client creation
-func TestNew(t *testing.T) {
+func TestNewClient(t *testing.T) {
 	t.Run("with nil config uses defaults", func(t *testing.T) {
-		client, err := New(nil)
+		client, err := NewClient(nil)
 		if err != nil {
 			// It's okay to fail connection to localhost:6379 if Redis is not running
 			// We just want to verify config validation worked
@@ -174,7 +174,7 @@ func TestNew(t *testing.T) {
 			DefaultTimeout: 10 * time.Second,
 		}
 
-		client, _ := New(cfg)
+		client, _ := NewClient(cfg)
 		if client != nil {
 			defer client.Close()
 
@@ -199,7 +199,7 @@ func TestNew(t *testing.T) {
 			DefaultTimeout: 0,
 		}
 
-		client, err := New(cfg)
+		client, err := NewClient(cfg)
 		if err == nil {
 			t.Error("expected error for invalid config, got nil")
 		}
@@ -222,7 +222,7 @@ func TestGetConfig(t *testing.T) {
 		DefaultTimeout: 7 * time.Second,
 	}
 
-	client, _ := New(cfg)
+	client, _ := NewClient(cfg)
 	if client == nil {
 		t.Skip("client creation failed")
 	}
@@ -258,7 +258,7 @@ func TestHealthCheck(t *testing.T) {
 	})
 
 	t.Run("with valid client", func(t *testing.T) {
-		client, err := New(nil)
+		client, err := NewClient(nil)
 		if err != nil {
 			t.Skip("Redis not available for testing")
 		}
@@ -277,7 +277,7 @@ func TestHealthCheck(t *testing.T) {
 // TestClientEmbedding tests that client properly embeds redis.Client
 func TestClientEmbedding(t *testing.T) {
 	cfg := DefaultConfig()
-	client, _ := New(cfg)
+	client, _ := NewClient(cfg)
 	if client == nil {
 		t.Skip("client creation failed")
 	}
@@ -365,7 +365,7 @@ func TestConfigAddress(t *testing.T) {
 				DefaultTimeout: 5 * time.Second,
 			}
 
-			client, _ := New(cfg)
+			client, _ := NewClient(cfg)
 			if client != nil {
 				defer client.Close()
 				// The address should be host:port
@@ -392,8 +392,8 @@ func TestMultipleClients(t *testing.T) {
 		DefaultTimeout: 10 * time.Second,
 	}
 
-	client1, _ := New(cfg1)
-	client2, _ := New(cfg2)
+	client1, _ := NewClient(cfg1)
+	client2, _ := NewClient(cfg2)
 
 	if client1 != nil {
 		defer client1.Close()

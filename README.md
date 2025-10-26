@@ -2,6 +2,13 @@
 
 A simple, production-ready Redis client wrapper for Go with easy configuration and connection pooling.
 
+```go
+import "github.com/alinemone/go-redis-kit"
+
+client, _ := rediskit.New(nil)
+client.Set(ctx, "key", "value", 0)
+```
+
 ## Features
 
 - ✅ Simple wrapper around [go-redis/redis](https://github.com/redis/go-redis)
@@ -29,7 +36,7 @@ import (
     "context"
     "log"
 
-    rediskit "github.com/alinemone/go-redis-kit"
+    "github.com/alinemone/go-redis-kit"
 )
 
 func main() {
@@ -251,7 +258,7 @@ import (
     "time"
 
     "github.com/redis/go-redis/v9"
-    rediskit "github.com/alinemone/go-redis-kit"
+    "github.com/alinemone/go-redis-kit"
 )
 
 var redisClient *rediskit.Client

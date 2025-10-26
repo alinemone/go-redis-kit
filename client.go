@@ -77,7 +77,7 @@ type Client struct {
 }
 
 // New creates a new Redis client with the given configuration
-func New(cfg *Config) (*Client, error) {
+func NewClient(cfg *Config) (*Client, error) {
 	if cfg == nil {
 		cfg = DefaultConfig()
 	}
